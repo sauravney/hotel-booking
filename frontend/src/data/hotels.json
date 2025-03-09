@@ -1,18 +1,118 @@
-[
-  {
-    "id": 1,
-    "name": "Taj Mahal Palace",
-    "location": "Mumbai",
-    "price": 5000,
-    "rating": 4.8,
-    "image": "https://source.unsplash.com/400x300/?hotel"
-  },
-  {
-    "id": 2,
-    "name": "Leela Palace",
-    "location": "Bangalore",
-    "price": 4500,
-    "rating": 4.6,
-    "image": "https://source.unsplash.com/400x300/?luxury-hotel"
-  }
-]
+{
+  "hotels": [
+    {
+      "name": "The Oberoi Bengaluru",
+      "location": "Bangalore",
+      "price_per_night": 12000,
+      "image": "https://example.com/images/oberoi_bangalore.jpg"
+    },
+    {
+      "name": "Taj West End",
+      "location": "Bangalore",
+      "price_per_night": 15000,
+      "image": "https://example.com/images/taj_west_end.jpg"
+    },
+    {
+      "name": "The Leela Palace",
+      "location": "Bangalore",
+      "price_per_night": 18000,
+      "image": "https://example.com/images/leela_palace.jpg"
+    },
+    {
+      "name": "ITC Gardenia",
+      "location": "Bangalore",
+      "price_per_night": 14000,
+      "image": "https://example.com/images/itc_gardenia.jpg"
+    },
+    {
+      "name": "JW Marriott Hotel Bengaluru",
+      "location": "Bangalore",
+      "price_per_night": 16000,
+      "image": "https://example.com/images/jw_marriott.jpg"
+    },
+    {
+      "name": "Shangri-La Hotel",
+      "location": "Bangalore",
+      "price_per_night": 17000,
+      "image": "https://example.com/images/shangri_la.jpg"
+    },
+    {
+      "name": "The Ritz-Carlton",
+      "location": "Bangalore",
+      "price_per_night": 19000,
+      "image": "https://example.com/images/ritz_carlton.jpg"
+    },
+    {
+      "name": "Conrad Bengaluru",
+      "location": "Bangalore",
+      "price_per_night": 17500,
+      "image": "https://example.com/images/conrad_bangalore.jpg"
+    },
+    {
+      "name": "The Chancery Pavilion",
+      "location": "Bangalore",
+      "price_per_night": 8000,
+      "image": "https://example.com/images/chancery_pavilion.jpg"
+    },
+    {
+      "name": "Radisson Blu Atria",
+      "location": "Bangalore",
+      "price_per_night": 8500,
+      "image": "https://example.com/images/radisson_blu_atria.jpg"
+    },
+    {
+      "name": "Radisson Blu Plaza",
+      "location": "Mysore",
+      "price_per_night": 8000,
+      "image": "https://example.com/images/radisson_mysore.jpg"
+    },
+    {
+      "name": "Fortune JP Palace",
+      "location": "Mysore",
+      "price_per_night": 6000,
+      "image": "https://example.com/images/fortune_jp_palace.jpg"
+    },
+    {
+      "name": "Royal Orchid Metropole",
+      "location": "Mysore",
+      "price_per_night": 7000,
+      "image": "https://example.com/images/royal_orchid.jpg"
+    },
+    {
+      "name": "Grand Mercure Mysore",
+      "location": "Mysore",
+      "price_per_night": 7500,
+      "image": "https://example.com/images/grand_mercure.jpg"
+    },
+    {
+      "name": "Hotel Southern Star",
+      "location": "Mysore",
+      "price_per_night": 5000,
+      "image": "https://example.com/images/southern_star.jpg"
+    },
+    {
+      "name": "Pai Vista",
+      "location": "Mysore",
+      "price_per_night": 4500,
+      "image": "https://example.com/images/pai_vista.jpg"
+    },
+    {
+      "name": "Lalitha Mahal Palace Hotel",
+      "location": "Mysore",
+      "price_per_night": 9000,
+      "image": "https://example.com/images/lalitha_mahal.jpg"
+    },
+    {
+      "name": "Hotel Sandesh The Prince",
+      "location": "Mysore",
+      "price_per_night": 5500,
+      "image": "https://example.com/images/sandesh_prince.jpg"
+    },
+    {
+      "name": "Silent Shores Resort & Spa",
+      "location": "Mysore",
+      "price_per_night": 9500,
+      "image": "https://example.com/images/silent_shores.jpg"
+    }
+  ]
+}

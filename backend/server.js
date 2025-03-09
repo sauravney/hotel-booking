@@ -2,6 +2,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const cors = require("cors");
+const dotenv = require("dotenv");
 
 const app = express();
 app.use(express.json());
