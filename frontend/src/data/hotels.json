@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "Taj Mahal Palace",
+    "location": "Mumbai",
+    "price": 5000,
+    "rating": 4.8,
+    "image": "https://source.unsplash.com/400x300/?hotel"
+  },
+  {
+    "id": 2,
+    "name": "Leela Palace",
+    "location": "Bangalore",
+    "price": 4500,
+    "rating": 4.6,
+    "image": "https://source.unsplash.com/400x300/?luxury-hotel"
+  }
+]
