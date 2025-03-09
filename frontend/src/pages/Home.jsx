@@ -43,9 +43,9 @@ const Home = () => {
         </div>
       </div>
       <div className="flex h-[50vh] items-center justify-center mb-44">
-        <Card />
-        <Card />
-        <Card />
+        <Card img={"/pics/hotel1.jpeg"} />
+        <Card img={"/pics/hotel2.jpeg"} />
+        <Card img={"/pics/hotel4.jpeg"} />
       </div>
     </>
   );

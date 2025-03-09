@@ -1,10 +1,10 @@
 import React from "react";
 
-const Card = () => {
+const Card = ({ img }) => {
   return (
     <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm m-3">
       <a href="#">
-        <img class="rounded-t-lg" src="https://placehold.co/600x400" alt="" />
+        <img class="rounded-t-lg" src={img} alt="" />
       </a>
       <div class="p-5">
         <a href="#">

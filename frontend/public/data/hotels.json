@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "name": "The Oberoi Bengaluru",
+    "location": "Bangalore",
+    "price": 12000,
+    "rating": 4.8,
+    "image": "/pics/hotel4.jpeg"
+  },
+  {
+    "id": 2,
+    "name": "Taj West End",
+    "location": "Bangalore",
+    "price": 15000,
+    "rating": 4.7,
+    "image": "/pics/hotel3.jpeg"
+  },
+  {
+    "id": 3,
+    "name": "The Leela Palace",
+    "location": "Bangalore",
+    "price": 18000,
+    "rating": 4.9,
+    "image": "/pics/hotel2.jpeg"
+  },
+  {
+    "id": 4,
+    "name": "ITC Gardenia",
+    "location": "Bangalore",
+    "price": 14000,
+    "rating": 4.6,
+    "image": "/pics/hotel1.jpeg"
+  },
+  {
+    "id": 5,
+    "name": "JW Marriott Hotel Bengaluru",
+    "location": "Bangalore",
+    "price": 16000,
+    "rating": 4.8,
+    "image": "/pics/hotel6.jpeg"
+  },
+  {
+    "id": 6,
+    "name": "Radisson Blu Plaza",
+    "location": "Mysore",
+    "price": 8000,
+    "rating": 4.5,
+    "image": "/pics/hotel3.jpeg"
+  },
+  {
+    "id": 7,
+    "name": "Fortune JP Palace",
+    "location": "Mysore",
+    "price": 6000,
+    "rating": 4.3,
+    "image": "/pics/hotel5.jpeg"
+  },
+  {
+    "id": 8,
+    "name": "Royal Orchid Metropole",
+    "location": "Mysore",
+    "price": 7000,
+    "rating": 4.4,
+    "image": "/pics/hotel1.jpeg"
+  },
+  {
+    "id": 9,
+    "name": "Grand Mercure Mysore",
+    "location": "Mysore",
+    "price": 7500,
+    "rating": 4.6,
+    "image": "/pics/hotel2.jpeg"
+  },
+  {
+    "id": 10,
+    "name": "Lalitha Mahal Palace Hotel",
+    "location": "Mysore",
+    "price": 9000,
+    "rating": 4.7,
+    "image": "/pics/hotel6.jpeg"
+  }
+]
