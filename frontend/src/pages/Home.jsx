@@ -5,7 +5,6 @@ const Home = () => {
   return (
     <>
       <div className="min-h-screen flex items-center justify-center">
-        {/* Overlay for better readability */}
         {/* <div className="absolute inset-0 bg-white bg-opacity-50"></div> */}
         <div className="relative z-10 text-center text-white p-6 max-w-4xl">
           <h1 className="text-5xl font-extrabold text-[#1b263b] drop-shadow-lg">
@@ -14,7 +13,6 @@ const Home = () => {
           <p className="text-lg text-gray-500 mt-3 opacity-90">
             Book luxurious and comfortable hotels for your family vacation.
           </p>
-
           {/* Search Bar */}
           <div className="mt-8 flex justify-center">
             <input
@@ -26,7 +24,6 @@ const Home = () => {
               Search
             </button>
           </div>
-
           {/* Buttons */}
           <div className="mt-8 flex justify-center gap-6">
             <Link to="/login">

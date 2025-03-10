@@ -1,12 +1,9 @@
 import { useState, useContext } from "react";
-import { loginUser } from "./api";
-import AuthContext from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
-  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -27,8 +24,9 @@ const Login = () => {
     const loginData = await loginResponse.json();
 
     if (loginResponse.ok) {
-      localStorage.setItem("token", loginData.token); // Store JWT token
-      navigate("/hotels"); // Redirect after login
+      localStorage.setItem("token", loginData.token);
+      navigate("/hotels");
+      window.location.reload();
     } else {
       setError("Login failed after registration");
     }

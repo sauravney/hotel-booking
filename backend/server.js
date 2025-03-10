@@ -1,16 +1,17 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import cors from "cors";
-import dotenv from "dotenv";
 import bookingRoutes from "./routes/bookingRoute.js";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
-const SECRET_KEY = "Saurav@12345";
 
 const users = [];
+// const PORT = process.env.PORT || 5000;
 
 // REGISTER API
 app.post("/api/register", async (req, res) => {
@@ -26,7 +27,7 @@ app.post("/api/register", async (req, res) => {
   users.push(newUser);
   const token = jwt.sign(
     { name: newUser.name, email: newUser.email },
-    SECRET_KEY
+    process.env.SECRET_KEY
   );
   res.json({ message: "User registered successfully", token });
 });
@@ -38,21 +39,13 @@ app.post("/api/login", async (req, res) => {
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return res.status(401).json({ message: "Invalid credentials" });
   }
-  const token = jwt.sign({ name: user.name, email: user.email }, SECRET_KEY);
+  const token = jwt.sign(
+    { name: user.name, email: user.email },
+    process.env.SECRET_KEY
+  );
   res.json({ message: "Login successful", token });
 });
 
-app.post("/api/check-email", async (req, res) => {
-  const { email } = req.body;
-  const user = await db.users.findOne({ where: { email } });
-
-  if (!user) {
-    return res.status(404).json({ message: "Email not found" });
-  }
-  res.json({ message: "Email exists" });
-});
-
-// ✅ Register routes
 app.use("/api", bookingRoutes);
 
 app.listen(5000, () =>

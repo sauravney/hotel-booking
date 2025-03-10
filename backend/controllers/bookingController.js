@@ -2,7 +2,6 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// ✅ Handle Check-In
 export const handleCheckIn = async (req, res) => {
   const { username, familyMembers, hotelName } = req.body;
 
@@ -46,13 +45,12 @@ export const handleCheckIn = async (req, res) => {
   }
 };
 
-// ✅ Get User Bookings
 export const fetchUserBookings = async (req, res) => {
   try {
     const { username } = req.query;
 
     if (!username) {
-      console.log("❌ Username is missing in the request.");
+      console.log("Username is missing in the request.");
       return res.status(400).json({ error: "Username is required" });
     }
 
@@ -61,18 +59,18 @@ export const fetchUserBookings = async (req, res) => {
     });
 
     if (!user) {
-      console.log("❌ User not found for username:", username);
+      console.log("User not found for username:", username);
       return res.status(404).json({ error: "User not found" });
     }
 
     const bookings = await prisma.booking.findMany({
       where: { userId: user.id },
-      include: { familyMembers: true }, // Ensure family members are included
+      include: { familyMembers: true },
     });
 
     res.json(bookings);
   } catch (error) {
-    console.error("🔥 Error fetching bookings:", error);
+    console.error("Error fetching bookings:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };

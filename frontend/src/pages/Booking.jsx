@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const Booking = () => {
   const [bookings, setBookings] = useState([]);
-  const username = "testuser"; // Replace with logged-in user data
+  const username = "john doe";
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/bookings?username=${username}`)

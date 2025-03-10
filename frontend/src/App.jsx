@@ -17,8 +17,7 @@ import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 
 const PrivateRoute = ({ element }) => {
-  const isAuthenticated = localStorage.getItem("token"); // Replace with actual auth logic
-
+  const isAuthenticated = localStorage.getItem("token");
   return isAuthenticated ? element : <Navigate to="/login" />;
 };
 
