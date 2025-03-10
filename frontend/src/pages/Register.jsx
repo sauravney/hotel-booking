@@ -27,12 +27,20 @@ const Register = () => {
       return;
     }
 
-    try {
-      console.log("Registering User", formData);
-      navigate("/login"); // Redirect after registration
-    } catch (error) {
-      setError("Registration failed");
+    const response = await fetch("http://localhost:5000/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      setError(data.message || "Registration failed");
+      return;
     }
+
+    navigate("/login");
   };
 
   return (

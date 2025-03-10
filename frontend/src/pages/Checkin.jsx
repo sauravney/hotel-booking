@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useState, usenav } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 const Checkin = () => {
   const { id } = useParams();
@@ -8,6 +8,7 @@ const Checkin = () => {
   const [familyMembers, setFamilyMembers] = useState([
     { name: "", aadhaar: "" },
   ]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("/data/hotels.json")
@@ -31,25 +32,16 @@ const Checkin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const hotelName = hotel.name;
-
     const checkinData = { username, familyMembers, hotelName };
-
-    try {
-      const response = await fetch("http://localhost:5000/api/web-checkin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(checkinData),
-      });
-
-      if (response.ok) {
-        alert("Check-in successful!");
-      } else {
-        alert("Check-in failed.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
+    const response = await fetch("http://localhost:5000/api/web-checkin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(checkinData),
+    });
+    if (response.ok) {
+      alert("Check-in successful!");
+      navigate(`/confirmation/${hotel.id}/${username}`);
     }
   };
 
@@ -97,14 +89,12 @@ const Checkin = () => {
         >
           + Add Family Member
         </button>
-        <Link to={`/confirmation/${hotel.id}`}>
-          <button
-            type="submit"
-            className="bg-green-500 text-white px-4 py-2 rounded-md"
-          >
-            Submit
-          </button>
-        </Link>
+        <button
+          type="submit"
+          className="bg-green-500 text-white px-4 py-2 rounded-md"
+        >
+          Submit
+        </button>
       </form>
     </div>
   );

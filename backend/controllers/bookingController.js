@@ -2,72 +2,77 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// ✅ Handle Check-in
+// ✅ Handle Check-In
 export const handleCheckIn = async (req, res) => {
-  const { username, hotelName, checkInDate, familyMembers } = req.body;
+  const { username, familyMembers, hotelName } = req.body;
 
   try {
-    // Find user by username
-    const user = await prisma.user.findUnique({
-      where: { username },
-    });
-
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
+    if (!username || !hotelName) {
+      return res
+        .status(400)
+        .json({ error: "Username and hotel name are required" });
     }
-
-    // Create a new booking with family members
+    let user = await prisma.user.upsert({
+      where: { username },
+      update: {},
+      create: { username },
+    });
     const newBooking = await prisma.booking.create({
       data: {
         userId: user.id,
         hotelName,
-        checkInDate: new Date(checkInDate),
         familyMembers: {
-          create: familyMembers.map((member) => ({
-            name: member.name,
-            aadhaar: member.aadhaar,
-          })),
+          create:
+            familyMembers?.map((member) => ({
+              name: member.name,
+              aadhaar: member.aadhaar,
+            })) || [],
         },
       },
+      include: { familyMembers: true },
     });
 
-    res.json({ message: "Check-in successful!", booking: newBooking });
+    res
+      .status(201)
+      .json({ message: "Check-in successful!", booking: newBooking });
   } catch (error) {
     console.error("Error during check-in:", error);
+
+    if (error.code === "P2002") {
+      return res.status(400).json({ error: "Aadhaar number must be unique." });
+    }
+
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
 // ✅ Get User Bookings
 export const fetchUserBookings = async (req, res) => {
-  const { username } = req.query;
-
   try {
-    // Find user by username
+    const { username } = req.query;
+
+    if (!username) {
+      console.log("❌ Username is missing in the request.");
+      return res.status(400).json({ error: "Username is required" });
+    }
+
     const user = await prisma.user.findUnique({
       where: { username },
     });
 
     if (!user) {
+      console.log("❌ User not found for username:", username);
       return res.status(404).json({ error: "User not found" });
     }
 
-    // Fetch bookings for the user
     const bookings = await prisma.booking.findMany({
       where: { userId: user.id },
-      select: {
-        id: true,
-        hotelName: true,
-        checkInDate: true,
-        familyMembers: {
-          select: { name: true, aadhaar: true },
-        },
-      },
+      include: { familyMembers: true }, // Ensure family members are included
     });
 
     res.json(bookings);
   } catch (error) {
-    console.error("Error fetching bookings:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    console.error("🔥 Error fetching bookings:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };

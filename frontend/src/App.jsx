@@ -17,8 +17,9 @@ import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 
 const PrivateRoute = ({ element }) => {
-  const { token } = useContext(AuthContext);
-  return token ? element : <Navigate to="/login" replace />;
+  const isAuthenticated = localStorage.getItem("token"); // Replace with actual auth logic
+
+  return isAuthenticated ? element : <Navigate to="/login" />;
 };
 
 function App() {
@@ -30,15 +31,18 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          {/* <Route
+          <Route
             path="/hotels"
             element={<PrivateRoute element={<Hotels />} />}
-          /> */}
-          <Route path="/hotels" element={<Hotels />} />
+          />
+          {/* <Route path="/hotels" element={<Hotels />} /> */}
           <Route path="/hotels/:id" element={<HotelDetails />} />
           <Route path="/booking" element={<Booking />} />
           <Route path="/checkin/:id" element={<Checkin />} />
-          <Route path="/confirmation/:id" element={<Confirmation />} />
+          <Route
+            path="/confirmation/:id/:username"
+            element={<Confirmation />}
+          />
         </Routes>
         <Footer />
       </Router>

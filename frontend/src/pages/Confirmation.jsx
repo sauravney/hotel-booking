@@ -2,23 +2,33 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
 const Confirmation = () => {
-  const { id } = useParams();
+  const { id, username } = useParams({ id: 0, username: "" });
   const [bookingDetails, setBookingDetails] = useState(null);
   const [hotel, setHotel] = useState({ name: "" });
 
   useEffect(() => {
-    // Fetch hotel details from the database
     fetch("/data/hotels.json")
       .then((response) => response.json())
       .then((data) => {
         const selectedHotel = data.find((hotel) => hotel.id === parseInt(id));
         setHotel(selectedHotel);
       });
-    // Fetch check-in details from the database
-    fetch(`http://localhost:5000/api/checkin/${id}`)
-      .then((response) => response.json())
-      .then((data) => setBookingDetails(data))
-      .catch((error) => console.error("Error fetching check-in data:", error));
+
+    fetch(`http://localhost:5000/api/bookings?username=${username}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.length > 0) {
+          setBookingDetails(data[0]);
+        } else {
+          setBookingDetails(null);
+        }
+      })
+      .catch((error) => console.error("Error fetching bookings:", error));
   }, [id]);
 
   if (!bookingDetails) {
@@ -40,11 +50,16 @@ const Confirmation = () => {
       </p>
       <h3 className="font-semibold mt-4">Family Members:</h3>
       <ul className="list-disc pl-6 mt-2">
-        {bookingDetails.familyMembers.map((member, index) => (
-          <li key={index} className="text-gray-700">
-            {member.name} - Aadhaar: {member.aadhaar}
-          </li>
-        ))}
+        {bookingDetails.familyMembers &&
+        bookingDetails.familyMembers.length > 0 ? (
+          bookingDetails.familyMembers.map((member, index) => (
+            <li key={index} className="text-gray-700">
+              {member.name} - Aadhaar: {member.aadhaar}
+            </li>
+          ))
+        ) : (
+          <p className="text-gray-500">No family members listed.</p>
+        )}
       </ul>
       <div className="mt-6 flex justify-between">
         <Link to="/" className="bg-gray-500 text-white px-4 py-2 rounded-md">
