@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const cors = require("cors");
 const dotenv = require("dotenv");
+import bookingRoutes from "./routes/bookingRoutes.js";
 
 const app = express();
 app.use(express.json());
@@ -25,6 +26,9 @@ app.post("/api/login", async (req, res) => {
   const token = jwt.sign({ name: user.name, email: user.email }, SECRET_KEY);
   res.json({ token });
 });
+
+// ✅ Register routes
+app.use("/api", bookingRoutes);
 
 app.listen(5000, () =>
   console.log(`Server running on port ${process.env.PORT}"));`)

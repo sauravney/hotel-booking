@@ -16,6 +16,11 @@ import Booking from "./pages/Booking.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 
+const PrivateRoute = ({ element }) => {
+  const { token } = useContext(AuthContext);
+  return token ? element : <Navigate to="/login" replace />;
+};
+
 function App() {
   return (
     <AuthProvider>
@@ -23,13 +28,17 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          {/* <Route path="/login" element={<Login />} /> */}
-          {/* <Route path="/register" element={<Register />} /> */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          {/* <Route
+            path="/hotels"
+            element={<PrivateRoute element={<Hotels />} />}
+          /> */}
           <Route path="/hotels" element={<Hotels />} />
           <Route path="/hotels/:id" element={<HotelDetails />} />
           <Route path="/booking" element={<Booking />} />
-          <Route path="/checkin" element={<Checkin />} />
-          <Route path="/confirmation" element={<Confirmation />} />
+          <Route path="/checkin/:id" element={<Checkin />} />
+          <Route path="/confirmation/:id" element={<Confirmation />} />
         </Routes>
         <Footer />
       </Router>

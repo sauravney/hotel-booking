@@ -1,67 +1,110 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 const Checkin = () => {
-  const navigate = useNavigate();
-  const [checkinDetails, setCheckinDetails] = useState({
-    familyMembers: [],
-  });
+  const { id } = useParams();
+  const [hotel, setHotel] = useState({ name: "" });
+  const [username, setUsername] = useState("");
+  const [familyMembers, setFamilyMembers] = useState([
+    { name: "", aadhaar: "" },
+  ]);
 
-  // Load booking data
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("bookingData"));
-    if (data) {
-      setCheckinDetails({
-        ...data,
-        familyMembers: data.familyMembers.map((member) => ({
-          ...member,
-          aadhaar: "",
-        })),
+    fetch("/data/hotels.json")
+      .then((response) => response.json())
+      .then((data) => {
+        const selectedHotel = data.find((hotel) => hotel.id === parseInt(id));
+        setHotel(selectedHotel);
       });
-    }
-  }, []);
+  }, [id]);
 
-  // Handle Aadhaar input change
-  const handleChange = (e, index) => {
-    const updatedMembers = [...checkinDetails.familyMembers];
-    updatedMembers[index][e.target.name] = e.target.value;
-    setCheckinDetails({ ...checkinDetails, familyMembers: updatedMembers });
+  const handleInputChange = (index, event) => {
+    const { name, value } = event.target;
+    const updatedMembers = [...familyMembers];
+    updatedMembers[index][name] = value;
+    setFamilyMembers(updatedMembers);
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
+  const addFamilyMember = () => {
+    setFamilyMembers([...familyMembers, { name: "", aadhaar: "" }]);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    localStorage.setItem("checkinData", JSON.stringify(checkinDetails));
-    navigate("/confirmation");
+
+    const hotelName = hotel.name;
+
+    const checkinData = { username, familyMembers, hotelName };
+
+    try {
+      const response = await fetch("http://localhost:5000/api/web-checkin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(checkinData),
+      });
+
+      if (response.ok) {
+        alert("Check-in successful!");
+      } else {
+        alert("Check-in failed.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <h2 className="text-3xl font-bold mb-4">Web Check-in</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <h3 className="text-xl font-semibold">Enter Aadhaar Details</h3>
-        {checkinDetails.familyMembers.map((member, index) => (
-          <div key={index} className="flex gap-4">
-            <p className="w-1/2 p-2 border rounded bg-gray-200">
-              {member.name} (Age: {member.age})
-            </p>
+    <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+      <h2 className="text-2xl font-bold mb-4">
+        Web Check-in at{" "}
+        <span className="text-blue-500 underline font-bold">{hotel.name}</span>
+      </h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="w-full p-2 border rounded-md mb-4"
+          required
+        />
+        {familyMembers.map((member, index) => (
+          <div key={index} className="mb-4">
+            <input
+              type="text"
+              name="name"
+              placeholder="Family Member Name"
+              value={member.name}
+              onChange={(e) => handleInputChange(index, e)}
+              className="w-full p-2 border rounded-md mb-2"
+              required
+            />
             <input
               type="text"
               name="aadhaar"
               placeholder="Aadhaar Number"
               value={member.aadhaar}
-              onChange={(e) => handleChange(e, index)}
-              className="w-1/2 p-2 border rounded"
+              onChange={(e) => handleInputChange(index, e)}
+              className="w-full p-2 border rounded-md"
               required
             />
           </div>
         ))}
         <button
-          type="submit"
-          className="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600"
+          type="button"
+          onClick={addFamilyMember}
+          className="bg-blue-500 text-white px-4 py-2 rounded-md mr-2"
         >
-          Confirm Check-in
+          + Add Family Member
         </button>
+        <Link to={`/confirmation/${hotel.id}`}>
+          <button
+            type="submit"
+            className="bg-green-500 text-white px-4 py-2 rounded-md"
+          >
+            Submit
+          </button>
+        </Link>
       </form>
     </div>
   );

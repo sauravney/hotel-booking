@@ -1,60 +1,62 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 const Confirmation = () => {
-  const navigate = useNavigate();
-  const [checkinDetails, setCheckinDetails] = useState(null);
+  const { id } = useParams();
+  const [bookingDetails, setBookingDetails] = useState(null);
+  const [hotel, setHotel] = useState({ name: "" });
 
-  // Load check-in data from localStorage
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("checkinData"));
-    if (data) {
-      setCheckinDetails(data);
-    }
-  }, []);
+    // Fetch hotel details from the database
+    fetch("/data/hotels.json")
+      .then((response) => response.json())
+      .then((data) => {
+        const selectedHotel = data.find((hotel) => hotel.id === parseInt(id));
+        setHotel(selectedHotel);
+      });
+    // Fetch check-in details from the database
+    fetch(`http://localhost:5000/api/checkin/${id}`)
+      .then((response) => response.json())
+      .then((data) => setBookingDetails(data))
+      .catch((error) => console.error("Error fetching check-in data:", error));
+  }, [id]);
+
+  if (!bookingDetails) {
+    return (
+      <p className="text-center text-gray-600 mt-10">
+        Loading booking details...
+      </p>
+    );
+  }
 
   return (
-    <div className="p-6 max-w-2xl mx-auto text-center">
-      <h2 className="text-3xl font-bold text-green-600">
-        🎉 Check-in Successful!
-      </h2>
-      <p className="text-lg mt-2">Your hotel booking has been confirmed.</p>
-
-      {checkinDetails && (
-        <div className="mt-6 p-4 border rounded-lg shadow-lg bg-gray-100">
-          <h3 className="text-xl font-semibold mb-2">Booking Details</h3>
-          <p>
-            <strong>Name:</strong> {checkinDetails.name}
-          </p>
-          <p>
-            <strong>Email:</strong> {checkinDetails.email}
-          </p>
-          <p>
-            <strong>Phone:</strong> {checkinDetails.phone}
-          </p>
-          <p>
-            <strong>Check-in:</strong> {checkinDetails.checkin}
-          </p>
-          <p>
-            <strong>Check-out:</strong> {checkinDetails.checkout}
-          </p>
-          <h3 className="text-lg font-semibold mt-3">Family Members</h3>
-          <ul className="text-left">
-            {checkinDetails.familyMembers.map((member, index) => (
-              <li key={index} className="border-b py-2">
-                {member.name} (Age: {member.age}) - Aadhaar: {member.aadhaar}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      <button
-        onClick={() => navigate("/")}
-        className="mt-6 bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600"
-      >
-        Back to Home
-      </button>
+    <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+      <h2 className="text-2xl font-bold mb-4">Booking Confirmation</h2>
+      <p className="text-lg font-semibold">
+        Hotel: <span className="text-blue-500">{hotel.name}</span>
+      </p>
+      <p className="text-lg">
+        Username: <span className="font-medium">{bookingDetails.username}</span>
+      </p>
+      <h3 className="font-semibold mt-4">Family Members:</h3>
+      <ul className="list-disc pl-6 mt-2">
+        {bookingDetails.familyMembers.map((member, index) => (
+          <li key={index} className="text-gray-700">
+            {member.name} - Aadhaar: {member.aadhaar}
+          </li>
+        ))}
+      </ul>
+      <div className="mt-6 flex justify-between">
+        <Link to="/" className="bg-gray-500 text-white px-4 py-2 rounded-md">
+          Home
+        </Link>
+        <button
+          className="bg-green-500 text-white px-4 py-2 rounded-md"
+          onClick={() => alert("Booking confirmed!")}
+        >
+          Confirm
+        </button>
+      </div>
     </div>
   );
 };
