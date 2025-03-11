@@ -46,7 +46,7 @@ const Confirmation = () => {
         Hotel: <span className="text-blue-500">{hotel.name}</span>
       </p>
       <p className="text-lg">
-        Username: <span className="font-medium">{bookingDetails.username}</span>
+        Username: <span className="font-medium">{username}</span>
       </p>
       <h3 className="font-semibold mt-4">Family Members:</h3>
       <ul className="list-disc pl-6 mt-2">
